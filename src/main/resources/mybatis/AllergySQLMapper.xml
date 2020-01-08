@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="safefood.allergy">
+	<!-- private String id; private String pw; private String name; private 
+		String addr; private String tel; private String allergy; -->
+	<insert id="insert" parameterType="AllergyDTO">
+		insert into allergy(num,name) values(#{num}, #{name})
+	</insert>
+
+	<delete id="delete" parameterType="AllergyDTO">
+		delete from allergy where num=#{num}
+	</delete>
+
+	<update id="update" parameterType="AllergyDTO">
+		update allergy set
+		name=#{name} where num=#{num}
+	</update>
+
+	<select id="selectList" resultType="AllergyDTO">
+		select * from allergy
+	</select>
+	<select id="selectOne" parameterType="AllergyDTO" resultType="AllergyDTO">
+		select * from allergy where num = #{num}
+	</select>
+	<select id="selectOneName" parameterType="AllergyDTO" resultType="AllergyDTO">
+		select * from allergy where name = #{name}
+	</select>
+</mapper>

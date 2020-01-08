@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="safefood.food">
+	<insert id="insert" parameterType="FoodDTO">
+		insert into food
+		(
+			code, 
+			name, 
+			supportpereat,
+			calory,
+			carbo,
+			protein,
+			fat,
+			sugar,
+			natrium,
+			chole,
+			fattyacid,
+			transfat,
+			maker,
+			material,
+			img,
+			hit
+		) 
+		values
+		(
+			#{code},
+			#{name},
+			#{supportpereat},
+			#{calory},
+			#{carbo},
+			#{protein},
+			#{fat},
+			#{sugar},
+			#{natrium},
+			#{chole},
+			#{fattyacid},
+			#{transfat},
+			#{maker},
+			#{material},
+			#{img},
+			#{hit}
+		);
+	</insert>
+	
+	<update id="updateHit">
+		update food set hit=#{hit} where code=#{code}
+	</update>
+
+	<select id="selectOne" resultType="FoodDTO">
+		select * from food where code = #{code}
+	</select>
+	
+	<select id="selectList" resultType="FoodDTO">
+		select * from food
+		<where>
+			<if test="searchType != null and !searchType.equals('') and searchText != null and !searchText.equals('')">
+				${searchType} like CONCAT('%',#{searchText},'%')
+			</if>
+		</where>
+		order by hit desc
+	</select>
+	
+	<select id="searchBestIndex" resultType="FoodDTO">
+		select * from food order by hit desc limit 0,6
+	</select>
+	
+	<select id="searchBest" resultType="FoodDTO">
+		select * , sum(cnt) sum
+		from food left outer join eatfood on food.code = eatfood.code
+		group by food.code
+		order by sum(cnt) desc;
+	</select>
+	
+	<select id="selectList_calory" resultType="FoodDTO">
+		select * from food where calory <![CDATA[<=]]> #{calory}
+	</select>
+	
+	<select id="foodCount" resultType="int">
+		select count(code) as cnt from food
+	</select>
+	
+	
+</mapper>

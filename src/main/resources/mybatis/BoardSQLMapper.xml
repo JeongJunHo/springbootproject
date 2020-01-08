@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="safefood.board">
+	<!-- private String id; private String pw; private String name; private 
+		String addr; private String tel; private String allergy; -->
+	<insert id="insert" parameterType="BoardDTO">
+		insert into boardManager(id,
+		title, document) values(
+		#{id},
+		#{title},
+		#{document}
+		)
+	</insert>
+
+	<delete id="delete" parameterType="BoardDTO">
+		delete from boardManager where num=#{num}
+	</delete>
+
+	<update id="update" parameterType="BoardDTO">
+		update boardManager set
+		title=#{title}, document=#{document}, hit=#{hit} where num=#{num}
+	</update>
+
+	<select id="selectList" resultType="BoardDTO">
+		select * from boardManager
+	</select>
+	<select id="selectListSearchTitle" resultType="BoardDTO">
+		select * from boardManager where title = #{title}
+	</select>
+	<select id="selectOne" parameterType="BoardDTO" resultType="BoardDTO">
+		select * from boardmanager where num = #{num}
+	</select>
+</mapper>

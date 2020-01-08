@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="safefood.notice">
+	<!-- private String id; private String pw; private String name; private 
+		String addr; private String tel; private String allergy; -->
+	<insert id="insert" parameterType="NoticeDTO">
+		insert into notice(
+		id, from_id,title, content, img, regdate) values(
+		#{id},
+		#{from_id},
+		#{title},
+		#{content},
+		#{img},
+		now()
+		)
+	</insert>
+
+
+	<delete id="delete" parameterType="NoticeDTO">
+		delete from notice where num=#{num}
+	</delete>
+
+	<update id="update" parameterType="NoticeDTO">
+		update notice set
+		content=#{content},img=#{img} where num=#{num}
+	</update>
+	
+	<update id="updateRead" parameterType="NoticeDTO">
+		update notice set
+		`read` =#{read} where num=#{num}
+	</update>
+	
+	<select id="selectOne" resultType="NoticeDTO" parameterType="NoticeDTO">
+		select * from notice where num = #{num}
+	</select>
+	
+	<select id="selectList" resultType="NoticeDTO" parameterType="NoticeDTO">
+		select * from notice where id=#{id}
+	</select>
+	
+	<select id="selectListUnread" resultType="NoticeDTO" parameterType="NoticeDTO">
+		select* from notice where id= #{id} and `read`=0;
+	</select>
+
+	<select id="selectListAll" resultType="NoticeDTO">
+		select * from notice
+	</select>
+
+
+</mapper>

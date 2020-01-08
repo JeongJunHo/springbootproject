@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="safefood.chatting">
+	<!-- private String id; private String pw; private String name; private 
+		String addr; private String tel; private String allergy; -->
+	<insert id="insert" parameterType="ChattingDTO">
+		insert into chatting(id,
+		content, regdate) values(
+		#{id},
+		#{content},
+		now()
+		)
+	</insert>
+
+	<delete id="delete" parameterType="ChattingDTO">
+		delete from chatting where num=#{num}
+	</delete>
+
+	<update id="update" parameterType="ChattingDTO">
+		update chatting set
+		content=#{content} where num=#{num}
+	</update>
+
+	<select id="selectList" resultType="ChattingDTO">
+		select * from chatting 
+		order by regdate
+	</select>
+	<select id="selectList_id" resultType="ChattingDTO">
+		select * from chatting where id = #{id}
+	</select>
+	<select id="selectOne" parameterType="ChattingDTO" resultType="ChattingDTO">
+		select * from chatting where num = #{num}
+	</select>
+</mapper>

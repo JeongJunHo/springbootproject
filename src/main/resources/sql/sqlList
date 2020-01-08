@@ -1,0 +1,110 @@
+create table `allergy`(
+	`num` varchar(11) NOT NULL COMMENT '알러지번호',
+	`name` varchar(30) NOT NULL UNIQUE COMMENT '알러지재료명',
+    
+	PRIMARY KEY (`num`)
+) COMMENT='알러지 정보';
+
+CREATE TABLE `food` (
+  `code` int(11) NOT NULL COMMENT '코드',
+  `name` varchar(45) NOT NULL COMMENT '이름',
+  `supportpereat` double DEFAULT NULL COMMENT '일회제공량',
+  `calory` double DEFAULT NULL COMMENT '칼로리',
+  `carbo` double DEFAULT NULL COMMENT '탄수화물',
+  `protein` double DEFAULT NULL COMMENT '단백질',
+  `fat` double DEFAULT NULL COMMENT '지방',
+  `sugar` double DEFAULT NULL COMMENT '당류',
+  `natrium` double DEFAULT NULL COMMENT '나트륨',
+  `chole` double DEFAULT NULL COMMENT '콜레스테롤',
+  `fattyacid` double DEFAULT NULL COMMENT '포화지방산',
+  `transfat` double DEFAULT NULL COMMENT '트렌스지방',
+  `maker` varchar(45) DEFAULT NULL COMMENT '제조사',
+  `material` varchar(500) DEFAULT NULL COMMENT '원료',
+  `img` varchar(45) DEFAULT NULL COMMENT '이미지 경로',
+  `hit` int(11) NOT NULL DEFAULT '0' COMMENT '조회수',
+  PRIMARY KEY (`code`)
+) COMMENT='식품정보';
+
+create table safeFoodMember(
+   id varchar(30) COMMENT '아이디',
+  pw varchar(30) not null COMMENT '비밀번호',
+  name varchar(30) not null COMMENT '이름',
+  addr varchar(30) COMMENT '주소',
+  tel varchar(16) COMMENT '폰번호',
+  allergy text COMMENT '알러지정보',
+  primary key(id)
+) COMMENT='회원정보';
+
+CREATE TABLE `boardmanager` (
+  `num` int(11) NOT NULL AUTO_INCREMENT COMMENT '글번호',
+  `id` varchar(30) DEFAULT NULL COMMENT '아이디',
+  `title` varchar(50) DEFAULT NULL COMMENT '제목',
+  `document` varchar(500) DEFAULT NULL COMMENT '내용',
+  `hit` int(11) NOT NULL DEFAULT '0' COMMENT '조회수',
+  PRIMARY KEY (`num`)
+) COMMENT='공지게시판';
+
+CREATE TABLE `dibfood` (
+  `id` char(30) NOT NULL COMMENT '회원아이디',
+  `code` int(11) NOT NULL COMMENT '제품코드',
+  `cnt` int(11) DEFAULT NULL COMMENT '수량',
+
+  PRIMARY KEY (`id`,`code`),
+  KEY `code` (`code`),
+  CONSTRAINT `dibfood_ibfk_1` FOREIGN KEY (`id`) REFERENCES `safefoodmember` (`id`),
+  CONSTRAINT `dibfood_ibfk_2` FOREIGN KEY (`code`) REFERENCES `food` (`code`)
+) COMMENT='찜목록';
+
+CREATE TABLE `eatfood` (
+  `num` int(11) NOT NULL AUTO_INCREMENT COMMENT '섭취정보번호',
+  `id` varchar(30) DEFAULT NULL COMMENT '회원아이디',
+  `code` int(11) DEFAULT NULL COMMENT '제품코드',
+  `cnt` int(11) DEFAULT NULL COMMENT '수량',
+  `eatdate` datetime DEFAULT NULL COMMENT '섭취일자',
+  PRIMARY KEY (`num`),
+  KEY `id` (`id`),
+  KEY `code` (`code`),
+  CONSTRAINT `eatfood_ibfk_1` FOREIGN KEY (`id`) REFERENCES `safefoodmember` (`id`),
+  CONSTRAINT `eatfood_ibfk_2` FOREIGN KEY (`code`) REFERENCES `food` (`code`)
+) COMMENT='섭취식품목록';
+
+CREATE TABLE `qna_board` (
+  `qnum` int(11) NOT NULL AUTO_INCREMENT COMMENT '질문글번호',
+  `id` varchar(30) NOT NULL COMMENT '회원아이디',
+  `title` varchar(50) NOT NULL COMMENT '제목',
+  `content` varchar(500) NOT NULL COMMENT '내용',
+  `hit` int(11) NOT NULL DEFAULT '0' COMMENT '조회수',
+  `regdate` datetime NOT NULL COMMENT '생성일자',
+  PRIMARY KEY (`qnum`),
+  KEY `id_idx` (`id`)
+) COMMENT='질문게시판';
+create table `qna_comment`(
+  `anum` int(11) NOT NULL AUTO_INCREMENT COMMENT '댓글번호',
+  `qnum` int(11) NOT NULL COMMENT '글번호',
+  `id` varchar(30) not NULL COMMENT '회원아이디',
+  `content` varchar(500) not NULL COMMENT '내용',
+  `regdate` datetime DEFAULT NULL COMMENT '생성일자',
+  PRIMARY KEY (`anum`)
+) COMMENT='질문게시판 댓글';
+create table `notice`(
+	`num` int(11) not null auto_increment COMMENT '쪽지번호',
+    `id` varchar(30) not null COMMENT '받는 아이디',
+	`from_id` varchar(30) not null COMMENT '보낸 아이디',
+    `title` varchar(500) not null COMMENT '제목',
+    `content` varchar(500) not null COMMENT '내용',
+    `img` varchar(45) DEFAULT 'img/ssafy_logo.png' COMMENT '이미지',
+    `read` int(11) not null DEFAULT '0' COMMENT '확인여부',
+    `regdate` datetime NOT NULL COMMENT '생성일자',
+	PRIMARY KEY (`num`),
+    CONSTRAINT `id1` FOREIGN KEY (`id`) REFERENCES `safefoodmember` (`id`) ,
+    CONSTRAINT `id2` FOREIGN KEY (`from_id`) REFERENCES `safefoodmember` (`id`) 
+) COMMENT='쪽지정보';
+
+create table `chatting`(
+	`num` int(11) not null auto_increment COMMENT '채팅번호',
+    `id` varchar(30) not null COMMENT '회원아이디',
+    `content` varchar(500) not null COMMENT '내용',
+    `regdate` datetime NOT NULL COMMENT '생성일자',
+	PRIMARY KEY (`num`),
+    CONSTRAINT `id3` FOREIGN KEY (`id`) REFERENCES `safefoodmember` (`id`)     
+) COMMENT='채팅정보';

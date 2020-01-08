@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="safefood.qnaBoard">
+	<!-- private String id; private String pw; private String name; private 
+		String addr; private String tel; private String allergy; -->
+	<insert id="insert" parameterType="QnaBoardDTO">
+		insert into qna_board(id, title, content, regdate)
+		values(
+		#{id},
+		#{title},
+		#{content},
+		now()
+		)
+	</insert>
+
+	<delete id="delete">
+		delete from qna_board where qnum=#{qnum}
+	</delete>
+
+	<update id="update" parameterType="QnaBoardDTO">
+		update qna_board set
+		id=#{id}, title=#{title}, content=#{content}, regdate=now() where qnum=#{qnum}
+	</update>
+	
+	<update id="updateHit">
+		update qna_board set
+		hit = #{hit} where qnum=#{qnum}
+	</update>
+	
+	<select id="selectList_search" resultType="QnaBoardDTO">
+		select * from qna_board
+		<where>
+			<if test="searchType != null and !searchType.equals('') and searchText != null and !searchText.equals('')">
+				${searchType} like CONCAT('%',#{searchText},'%')
+			</if>
+		</where>
+	</select>
+	
+	<select id="selectList" resultType="QnaBoardDTO">
+		select * from qna_board
+	</select>
+	
+	<select id="selectOne" resultType="QnaBoardDTO">
+		select * from qna_board where qnum = #{qnum}
+	</select>
+</mapper>

@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="safefood.eatFood">
+	<insert id="insert" parameterType="EatFoodDTO">
+		insert into eatfood
+		(
+			id,
+			code,
+			cnt,
+			eatdate
+		)
+		values
+		(
+			#{id},
+			#{code},
+			#{cnt},
+			now()
+		)
+	</insert>
+	
+	<update id="update" parameterType="EatFoodDTO">
+		update eatfood set
+		id = #{id}, code = #{code}, cnt = #{cnt}, eatdate = #{eatdate}
+		where num = #{num}
+	</update>
+	
+	<delete id="delete">
+		delete from eatfood where num = #{num}
+	</delete>
+	
+	<select id="selectOne" resultType="EatFoodDTO">
+		select num, id, code, cnt, eatdate
+		from eatfood
+		where num = #{num}
+	</select>
+	
+	<select id="selectList" resultType="EatFoodInfoDTO">
+		select num, id, code, cnt, eatdate, name as foodName from eatfood join food using(code)
+	</select>
+	
+	<select id="selectListById" resultType="EatFoodInfoDTO">
+		select 
+			num, 
+			id, 
+			code, 
+			cnt, 
+			eatdate, 
+			name as foodName
+		from eatfood join food using(code)
+		where id = #{id}
+	</select>
+	
+	<select id="selectSumListById" resultType="map">
+		select
+			ifnull(round(sum(calory*cnt),2),0) as calory,
+		    ifnull(round(sum(carbo*cnt),2),0) as carbo,
+		    ifnull(round(sum(protein*cnt),2),0) as protein,
+		    ifnull(round(sum(fat*cnt),2),0) as fat,
+		    ifnull(round(sum(sugar*cnt),2),0) as sugar,
+		    ifnull(round(sum(natrium*cnt),2),0) as natrium,
+		    ifnull(round(sum(chole*cnt),2),0) as chole,
+		    ifnull(round(sum(fattyacid*cnt),2),0) as fattyacid,
+		    ifnull(round(sum(transfat*cnt),2),0) as transfat
+		from 
+			eatfood 
+		    join food using(code)
+		where 1
+			and id=#{id}
+		    and date(eatdate) between #{sdate} and #{edate}
+	</select>
+	
+	<select id="selectDaySumListById" resultType="map">
+		select
+			date(eatdate) as eatdate,
+			round(sum(calory*cnt),2) as calory,
+		    round(sum(carbo*cnt),2) as carbo,
+		    round(sum(protein*cnt),2) as protein,
+		    round(sum(fat*cnt),2) as fat,
+		    round(sum(sugar*cnt),2) as sugar,
+		    round(sum(natrium*cnt),2) as natrium,
+		    round(sum(chole*cnt),2) as chole,
+		    round(sum(fattyacid*cnt),2) as fattyacid,
+		    round(sum(transfat*cnt),2) as transfat
+		from eatfood join food using(code)
+		where 1
+			and id=#{id}
+		    and date(eatdate) between #{sdate} and #{edate}
+		group by date(eatdate)
+	</select>
+	
+	<select id="selectTodaySumList" resultType="map">
+		select
+			ifnull(round(sum(carbo*cnt),2),0) as carbo,
+			ifnull(round(sum(protein*cnt),2),0) as protein,
+			ifnull(round(sum(fat*cnt),2),0) as fat,
+			ifnull(round(sum(sugar*cnt),2),0) as sugar,
+			ifnull(round(sum(natrium*cnt),2),0) as natrium,
+			ifnull(round(sum(chole*cnt),2),0) as chole,
+			ifnull(round(sum(fattyacid*cnt),2),0) as fattyacid,
+			ifnull(round(sum(transfat*cnt),2),0) as transfat
+		from eatfood join food using(code)
+		where 1
+			and id=#{id}
+			and date(eatdate) = curdate()
+	</select>
+</mapper>

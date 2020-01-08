@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration
+  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+	<typeAliases>
+		<typeAlias type="com.ssafy.safefood.dto.MemberDTO" alias="MemberDTO" />
+		<typeAlias type="com.ssafy.safefood.dto.FoodDTO" alias="FoodDTO" />
+		<typeAlias type="com.ssafy.safefood.dto.BoardDTO" alias="BoardDTO" />
+		<typeAlias type="com.ssafy.safefood.dto.AllergyDTO" alias="AllergyDTO" />
+		<typeAlias type="com.ssafy.safefood.dto.DibFoodDTO" alias="DibFoodDTO" />
+		<typeAlias type="com.ssafy.safefood.dto.EatFoodDTO" alias="EatFoodDTO" />
+		<typeAlias type="com.ssafy.safefood.dto.EatFoodInfoDTO" alias="EatFoodInfoDTO" />
+		<typeAlias type="com.ssafy.safefood.dto.DibFoodNameImgListDTO" alias="DibFoodNameImgListDTO" />
+		<typeAlias type="com.ssafy.safefood.dto.QnaBoardDTO" alias="QnaBoardDTO" />
+		<typeAlias type="com.ssafy.safefood.dto.QnaCommentDTO" alias="QnaCommentDTO" />
+		<typeAlias type="com.ssafy.safefood.dto.NoticeDTO" alias="NoticeDTO" />
+		<typeAlias type="com.ssafy.safefood.dto.ChattingDTO" alias="ChattingDTO" />
+	</typeAliases>
+	
+	<mappers>
+		<mapper resource="mybatis/MemberSQLMapper.xml" />
+		<mapper resource="mybatis/FoodSQLMapper.xml" />
+		<mapper resource="mybatis/BoardSQLMapper.xml" />
+		<mapper resource="mybatis/DibFoodSQLMapper.xml" />
+		<mapper resource="mybatis/EatFoodSQLMapper.xml" />
+		<mapper resource="mybatis/AllergySQLMapper.xml" />
+		<mapper resource="mybatis/QnaBoardSQLMapper.xml" />
+		<mapper resource="mybatis/QnaCommentSQLMapper.xml" />
+		<mapper resource="mybatis/NoticeSQLMapper.xml" />
+		<mapper resource="mybatis/ChattingSQLMapper.xml" />
+	</mappers>
+</configuration>

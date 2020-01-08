@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="safefood.qnacomment">
+	<!-- private String id; private String pw; private String name; private 
+		String addr; private String tel; private String allergy; -->
+	<insert id="insert" parameterType="QnaCommentDTO">
+		insert into qna_comment(qnum,
+		id, content, regdate) values(
+		#{qnum},
+		#{id},
+		#{content},
+		now()
+		)
+	</insert>
+
+	<delete id="delete" parameterType="QnaCommentDTO">
+		delete from qna_comment where anum=#{anum}
+	</delete>
+
+	<update id="update" parameterType="QnaCommentDTO">
+		update qna_comment set
+		content=#{content}, regdate=now() where anum=#{anum}
+	</update>
+	
+	<select id="selectList" resultType="QnaCommentDTO" parameterType="QnaCommentDTO">
+		select * from qna_comment where qnum = #{qnum}
+	</select>
+	
+	<select id="selectListAll" resultType="QnaCommentDTO">
+		select * from qna_comment
+	</select>
+
+
+</mapper>

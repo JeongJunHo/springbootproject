@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="safefood.member">
+<!-- 	private String id;
+	private String pw;
+	private String name;
+	private String addr;
+	private String tel;
+	private String allergy; -->
+	<insert id="insert" parameterType="MemberDTO">
+
+		insert into safeFoodMember values(
+			#{id},
+			#{pw},
+			#{name},
+			#{addr},
+			#{tel},
+			#{allergy}
+		)
+	</insert>
+	
+	<delete id="delete" parameterType="string">
+		delete from safeFoodMember where id = #{id}
+	</delete>
+
+	<update id="update" parameterType="MemberDTO">
+
+		update safeFoodMember set pw= #{pw},
+								name= #{name},
+								addr= #{addr},
+								tel= #{tel},
+								allergy =#{allergy} 
+		where id= #{id}
+	</update>
+	
+
+
+  <select id="selectList" resultType="MemberDTO">
+    select * from safeFoodMember
+  </select>
+  <select id="selectOne" parameterType="string" resultType="MemberDTO">
+    select * from safeFoodMember where id = #{id}
+  </select>
+  <select id="selectOne_name_addr" parameterType="MemberDTO" resultType="MemberDTO">
+    select * from safeFoodMember where name = #{name} and addr = #{addr}
+  </select>
+</mapper>

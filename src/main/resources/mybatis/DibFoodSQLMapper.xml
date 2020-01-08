@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="safefood.dibFood">
+
+
+
+
+  <insert id="insert" parameterType="DibFoodDTO" >
+<!--     select * from safeFoodMember
+ -->
+	insert into dibfood values (#{id}, #{code}, #{cnt})
+  </insert>
+  <select id="selectOne" parameterType="DibFoodDTO" resultType="DibFoodDTO">
+  <!--   select * from safeFoodMember where id = ? -->
+    select * from dibfood where id =#{id} and code = #{code}
+  </select>
+
+	<update id="update" parameterType="DibFoodDTO">
+		update dibfood set
+		cnt = #{cnt} where id =#{id} and code = #{code}
+	</update>
+	
+	<delete id="delete" parameterType="DibFoodDTO">
+		delete from dibfood where id =#{id} and code = #{code}
+	</delete>
+
+  <select id="selectList" parameterType="DibFoodDTO" resultType="DibFoodNameImgListDTO">
+
+    select dibfood.id, dibfood.code, dibfood.cnt, food.name, food.img from dibfood join food on dibfood.code = food.code where id =#{id} ;
+    
+  </select>
+  
+  <select id="selectTodayDibPlusEatSumList" resultType="map">
+	select 
+		round(sum(carbo*cnt),2) as carbo,
+		round(sum(protein*cnt),2) as protein,
+		round(sum(fat*cnt),2) as fat,
+		round(sum(sugar*cnt),2) as sugar,
+		round(sum(natrium*cnt),2) as natrium,
+		round(sum(chole*cnt),2) as chole,
+		round(sum(fattyacid*cnt),2) as fattyacid,
+		round(sum(transfat*cnt),2) as transfat
+	from 
+		food a join
+		(
+			select code, sum(cnt) as cnt
+			from(
+				select code, cnt from dibfood where id=#{id}
+				union all
+				select code, cnt from eatfood where id=#{id} and date(eatdate) = curdate()
+			)z
+			group by code
+		)b using(code)
+  </select>
+</mapper>
